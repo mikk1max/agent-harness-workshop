@@ -1,0 +1,13 @@
+{
+  "agent": "release-manager",
+  "episode": 3,
+  "step": "3",
+  "status": "pass",
+  "summary": "Kryterium kroku 3 (oznaczanie jako zrobione) przeszło pomyślnie. Test weryfikuje funkcjonalność komendy 'done' - oznaczanie zadań jako ukończone.",
+  "details": [
+    "Wyjście testu: 'Nie znaleziono zadania o id 999\\nstep3: OK'",
+    "Kod wyjścia: 0 (sukces)",
+    "Test sprawdzał: (1) Oznaczenie zadania 1 jako [x], (2) Pozostawienie zadania 2 jako [ ], (3) Błąd przy próbie oznaczenia nieistniejącego id 999 z exit code 1"
+  ],
+  "artifacts": []
+}

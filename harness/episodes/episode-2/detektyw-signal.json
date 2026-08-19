@@ -1,0 +1,9 @@
+{
+  "agent": "detektyw",
+  "episode": 2,
+  "step": "2",
+  "status": "advance",
+  "summary": "Test step2.test.js przechodzi poprawnie. Implementacja komendy list jest ogolna i zgodna ze specyfikacja - sortuje po id, wypisuje w formacie <id> [mark] <text>, brak hardkodowania. Brak dlugu technicznego blokujacego kolejne kroki.",
+  "details": [],
+  "artifacts": []
+}

@@ -1,0 +1,9 @@
+{
+  "agent": "detektyw",
+  "episode": 1,
+  "step": "1",
+  "status": "advance",
+  "summary": "Test step1 przeszedl poprawnie. Logika add jest ogolna (nextId via Math.max), nie zahardkodowana. ID nigdy nie jest ponownie uzywane, plik tworzony gdy nie istnieje. Pozostale komendy zaimplementowane bez dlugu technicznego.",
+  "details": [],
+  "artifacts": []
+}

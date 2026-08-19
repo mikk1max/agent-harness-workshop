@@ -1,0 +1,86 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "duration_ms": 31464,
+  "duration_api_ms": 33205,
+  "num_turns": 13,
+  "result": "Gotowe. Oto podsumowanie:\n\n**Krok 3: oznaczanie jako zrobione** — `node tests/step3.test.js` → **OK**\n\nKomenda `done` była już poprawnie zaimplementowana w `cli.js` (z poprzednich epizodów). Działa następująco:\n- `node cli.js done <id> --file <ścieżka>` — ustawia `done: true` dla zadania o danym `id`\n- Dla nieistniejącego `id` (np. 999) — wypisuje błąd na stderr i kończy z exit code 1\n- Test weryfikuje oba scenariusze i przechodzi pomyślnie",
+  "stop_reason": "end_turn",
+  "session_id": "20b8cdef-8e1f-4a3d-b4f1-091384dd6c6c",
+  "total_cost_usd": 0.0650325,
+  "usage": {
+    "input_tokens": 11,
+    "cache_creation_input_tokens": 5230,
+    "cache_read_input_tokens": 71400,
+    "output_tokens": 1564,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 5230,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [
+      {
+        "input_tokens": 1,
+        "output_tokens": 181,
+        "cache_read_input_tokens": 10037,
+        "cache_creation_input_tokens": 356,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 356
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 437,
+      "outputTokens": 14,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0.000507,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000
+    },
+    "claude-sonnet-4-6": {
+      "inputTokens": 11,
+      "outputTokens": 1564,
+      "cacheReadInputTokens": 71400,
+      "cacheCreationInputTokens": 5230,
+      "webSearchRequests": 0,
+      "costUSD": 0.06452549999999999,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000
+    }
+  },
+  "permission_denials": [
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_012HAQa2XDGZw5PbKMC9JBMc",
+      "tool_input": {
+        "command": "mkdir -p /Users/mikk1max/Downloads/warsztat-harness-agentowy/harness/episodes/episode-3",
+        "description": "Create episode-3 directory"
+      }
+    },
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_01LJXwAyZP7ncFD8SjwFsY92",
+      "tool_input": {
+        "command": "mkdir -p episodes/episode-3",
+        "description": "Create episode-3 directory in harness"
+      }
+    }
+  ],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "uuid": "7672025d-16bd-4bd8-a3b8-b6613442e4a7"
+}

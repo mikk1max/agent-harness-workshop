@@ -1,0 +1,13 @@
+{
+  "agent": "implementer",
+  "episode": 5,
+  "step": "5",
+  "status": "done",
+  "summary": "Komenda `count` była już zaimplementowana w cli.js — wypisuje liczbę wszystkich zadań niezależnie od statusu done, zakończoną znakiem nowej linii. Test step5 przechodzi.",
+  "details": [
+    "Komenda `count` w switch-case odczytuje tablicę zadań i wypisuje tasks.length na stdout",
+    "Działa poprawnie dla nieistniejącego pliku (zwraca 0), po dodaniu zadań, po oznaczeniu done oraz po usunięciu",
+    "node tests/step5.test.js → step5: OK"
+  ],
+  "artifacts": []
+}

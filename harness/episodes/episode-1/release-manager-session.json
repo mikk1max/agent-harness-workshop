@@ -1,0 +1,76 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "duration_ms": 15677,
+  "duration_api_ms": 16002,
+  "num_turns": 5,
+  "result": "## Raport z weryfikacji\n\n**Epizod:** 1  \n**Krok:** 1 (dodawanie zadań)  \n**Polecenie kryterium:** `node tests/step1.test.js`\n\n### Wynik uruchomienia:\n```\nstep1: OK\n```\n**Kod wyjścia:** 0 (sukces)\n\n### Decyzja: ✅ **PASS**\n\nKryterium przeszło pomyślnie. Krok 1 jest gotów do wydania.\n\nSygnał zapisany w: `/Users/mikk1max/Downloads/warsztat-harness-agentowy/harness/episodes/episode-1/release-manager-signal.json`",
+  "stop_reason": "end_turn",
+  "session_id": "a09bfccd-7ea1-424c-8dd4-d9c19bf06b4a",
+  "total_cost_usd": 0.0117051,
+  "usage": {
+    "input_tokens": 42,
+    "cache_creation_input_tokens": 1234,
+    "cache_read_input_tokens": 31466,
+    "output_tokens": 1305,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1234,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [
+      {
+        "input_tokens": 8,
+        "output_tokens": 279,
+        "cache_read_input_tokens": 6741,
+        "cache_creation_input_tokens": 430,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 430
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 431,
+      "outputTokens": 1317,
+      "cacheReadInputTokens": 31466,
+      "cacheCreationInputTokens": 1234,
+      "webSearchRequests": 0,
+      "costUSD": 0.0117051,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000
+    }
+  },
+  "permission_denials": [
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_01KzXw2YsJEjmiDf38BWgpBz",
+      "tool_input": {
+        "command": "cd /harness && node tests/step1.test.js",
+        "description": "Run the test criterion for episode 1, step 1"
+      }
+    },
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_018o5dxBsn1orjdqb5cVtDaF",
+      "tool_input": {
+        "command": "echo $?",
+        "description": "Check exit code of previous command"
+      }
+    }
+  ],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "uuid": "0d24ddaf-1ac1-41eb-a1b8-7328125cfef2"
+}

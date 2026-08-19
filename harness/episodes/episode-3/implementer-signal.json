@@ -1,0 +1,13 @@
+{
+  "agent": "implementer",
+  "episode": 3,
+  "step": "3",
+  "status": "done",
+  "summary": "Komenda 'done' była już poprawnie zaimplementowana w cli.js. Test step3.test.js przechodzi pomyślnie.",
+  "details": [
+    "Komenda 'done <id> --file <ścieżka>' oznacza zadanie jako zrobione (done: true)",
+    "Dla nieistniejącego id wypisuje błąd na stderr i kończy z exit code 1",
+    "Test step3: OK"
+  ],
+  "artifacts": []
+}

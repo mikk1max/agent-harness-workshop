@@ -1,0 +1,15 @@
+{
+  "agent": "implementer",
+  "episode": 1,
+  "step": "1",
+  "status": "done",
+  "summary": "Zaimplementowano cli.js z komendą add (oraz list, done, remove, count). Test step1 przechodzi.",
+  "details": [
+    "Dodano komendę add — tworzy plik JSON jeśli nie istnieje, przydziela id rosnąco od 1, ustawia done: false",
+    "Dodano komendę list — wypisuje zadania posortowane po id w formacie '<id> [ ] <text>' lub '<id> [x] <text>'",
+    "Dodano komendę done — oznacza zadanie jako zrobione, zwraca exit 1 przy nieistniejącym id",
+    "Dodano komendę remove — usuwa zadanie, zwraca exit 1 przy nieistniejącym id",
+    "Dodano komendę count — drukuje liczbę wszystkich zadań"
+  ],
+  "artifacts": []
+}

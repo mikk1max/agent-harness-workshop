@@ -1,0 +1,9 @@
+{
+  "agent": "release-manager",
+  "episode": 1,
+  "step": "1",
+  "status": "pass",
+  "summary": "Kryterium step1 przeszło pomyślnie. Test dla kroku 'dodawania zadań' zwrócił status OK bez błędów.",
+  "details": ["step1: OK", "exit code: 0"],
+  "artifacts": []
+}

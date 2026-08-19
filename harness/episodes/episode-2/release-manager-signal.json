@@ -1,0 +1,12 @@
+{
+  "agent": "release-manager",
+  "episode": 2,
+  "step": "2",
+  "status": "pass",
+  "summary": "Kryterium dla kroku 'listowanie zadań' przeszło pomyślnie",
+  "details": [
+    "Wyjście polecenia: 'step2: OK'",
+    "Kod wyjścia: 0"
+  ],
+  "artifacts": []
+}

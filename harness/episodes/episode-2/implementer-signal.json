@@ -1,0 +1,12 @@
+{
+  "agent": "implementer",
+  "episode": 2,
+  "step": "2",
+  "status": "done",
+  "summary": "Komenda `list` była już poprawnie zaimplementowana w cli.js — test step2 przechodzi bez żadnych zmian.",
+  "details": [
+    "Komenda `list` wczytuje zadania z pliku JSON, sortuje rosnąco po id i wypisuje każde w formacie `<id> [ ] <text>` lub `<id> [x] <text>`.",
+    "Test node tests/step2.test.js zakończył się kodem wyjścia 0 (step2: OK)."
+  ],
+  "artifacts": []
+}

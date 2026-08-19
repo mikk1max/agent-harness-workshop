@@ -1,0 +1,14 @@
+{
+  "agent": "implementer",
+  "episode": 4,
+  "step": "4",
+  "status": "done",
+  "summary": "Krok 4 zakończony sukcesem — polecenie 'remove' już działało poprawnie w cli.js: usuwa zadanie po id, nie przenumerowuje pozostałych id, i zwraca exit code 1 przy nieistniejącym id.",
+  "details": [
+    "Polecenie 'remove <id>' usuwa zadanie o podanym id z tablicy zadań w pliku JSON.",
+    "Id pozostałych zadań nie są przenumerowywane po usunięciu (np. id=3 pozostaje id=3).",
+    "Dla nieistniejącego id proces kończy się kodem wyjścia 1 i komunikatem błędu na stderr.",
+    "Test node tests/step4.test.js zwraca 'step4: OK' i kod wyjścia 0."
+  ],
+  "artifacts": []
+}

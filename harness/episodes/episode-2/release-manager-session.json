@@ -1,0 +1,76 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "duration_ms": 31659,
+  "duration_api_ms": 31803,
+  "num_turns": 10,
+  "result": "## Raport Release Managera — Epizod 2, Krok 2\n\n**Status: ✅ PASS**\n\n### Uruchomienie kryterium:\n```\n$ node tests/step2.test.js\nstep2: OK\n```\n\n### Wynik:\n- **Kod wyjścia:** 0 (sukces)\n- **Wyjście:** `step2: OK`\n- **Wniosek:** Kryterium dla kroku \"listowanie zadań\" przeszło pomyślnie\n\n### Artefakt:\nSygnał zapisany w: `episodes/episode-2/release-manager-signal.json`\n\nKrok 2 (listowanie zadań) **nadaje się do wydania** ✅",
+  "stop_reason": "end_turn",
+  "session_id": "a8122516-e046-41cc-9e70-d3c32059ba79",
+  "total_cost_usd": 0.021214099999999996,
+  "usage": {
+    "input_tokens": 74,
+    "cache_creation_input_tokens": 3478,
+    "cache_read_input_tokens": 64596,
+    "output_tokens": 1977,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 3478,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [
+      {
+        "input_tokens": 8,
+        "output_tokens": 322,
+        "cache_read_input_tokens": 8392,
+        "cache_creation_input_tokens": 380,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 380
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-haiku-4-5-20251001": {
+      "inputTokens": 462,
+      "outputTokens": 1989,
+      "cacheReadInputTokens": 64596,
+      "cacheCreationInputTokens": 3478,
+      "webSearchRequests": 0,
+      "costUSD": 0.021214099999999996,
+      "contextWindow": 200000,
+      "maxOutputTokens": 32000
+    }
+  },
+  "permission_denials": [
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_014WFAFBy2vqjRzxu3iYoyzq",
+      "tool_input": {
+        "command": "cd /root/harness && pwd && ls -la",
+        "description": "Show current directory and list files in harness"
+      }
+    },
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_01MuR4PZf3XeRTdcbmmDZE1J",
+      "tool_input": {
+        "command": "node tests/step2.test.js; echo \"Exit code: $?\"",
+        "description": "Run step2 test and display exit code"
+      }
+    }
+  ],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "uuid": "bafa46fb-972d-4dc9-a4c3-b5dfbd64831e"
+}
