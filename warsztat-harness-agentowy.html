@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harness agentowy — Warsztat</title>
+<link rel="icon" href="https://www.iteratorshq.com/wp-content/uploads/2018/10/cropped-logo-square-32x32.png" sizes="32x32">
+<link rel="icon" href="https://www.iteratorshq.com/wp-content/uploads/2018/10/cropped-logo-square-192x192.png" sizes="192x192">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1654;
+    --orange: #FF7A00;
+    --soft: #FFF6E8;
+    --muted: #6a6f8a;
+    --ink: #2a2e45;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  /* Fluid RWD: ONE viewport-based root font-size drives every size below (all in rem),
+     so text, title, spacing, logo and chrome scale together as the window changes —
+     no fixed slide size, no frame, no letterbox. min(vw, vh) keeps proportions sane on
+     any aspect ratio and stops content overflowing on short/wide windows. ≈16px at
+     1920×1080, grows on big screens, shrinks on small ones. */
+  html { font-size: min(0.85vw, 1.5vh); }
+
+  body {
+    font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #fff;
+    color: var(--navy);
+    overflow: hidden;
+  }
+
+  .slide {
+    position: fixed;
+    inset: 0;                       /* every slide fills the whole window — no frame */
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;    /* the title anchors to the top on EVERY slide */
+    padding: 5rem 8rem 6rem;        /* scales with the root font */
+    background: #fff;
+    overflow-y: auto;               /* long slides scroll instead of clipping */
+  }
+  .slide.active { display: flex; }
+
+  /* logo + chrome — positioned in rem so they hold the same spot at every window size */
+  .logo { position: absolute; top: 3.25rem; right: 8rem; height: 1.5rem; width: auto; }
+  .num  { position: absolute; bottom: 3rem; right: 8rem;
+          font-size: .9rem; letter-spacing: .12em; color: var(--muted); font-weight: 500; }
+  .bar  { position: absolute; left: 0; bottom: 0; height: .35rem; background: var(--orange); transition: width .25s ease; }
+
+  /* dark slides: keep the mark orange, turn the wordmark white */
+  .cover .logo-text, .closing .logo-text { fill: #fff; }
+
+  /* headings + text */
+  h2 {
+    font-size: 3rem; font-weight: 800; line-height: 1.12;
+    letter-spacing: -.02em; max-width: 26ch;
+  }
+  h2::before {
+    content: ""; display: block;
+    width: 3.4rem; height: .3rem; background: var(--orange);
+    margin-bottom: 1.6rem; border-radius: 3px;
+  }
+  /* Reserve a fixed title band so the body text below ALSO starts at the same Y,
+     whether the title is one or two lines. Two text lines (1.12 × 3rem) + the orange
+     rule (.3rem + 1.6rem) = the invariant. Applies to content + closing (both use h2);
+     the cover uses h1 and is exempt. All-rem, so it scales with everything else. */
+  .slide h2 { min-height: calc(2 * 1.12 * 3rem + 1.9rem); }
+  p {
+    font-size: 1.7rem; font-weight: 300; line-height: 1.5;
+    color: var(--ink); margin-top: 1.375rem; max-width: 46ch;
+  }
+  p strong { font-weight: 700; color: var(--navy); }
+  p em { font-style: normal; color: var(--orange); font-weight: 600; }
+  .lead { font-size: 1.95rem; }
+
+  pre {
+    font-family: 'JetBrains Mono', monospace;
+    background: #f4f5fa; border-left: .25rem solid var(--orange);
+    color: var(--navy); font-size: 1.15rem; line-height: 1.5;
+    padding: 1.375rem 1.6rem; margin-top: 1.75rem; border-radius: 4px;
+    max-width: max-content;
+  }
+  pre.diagram { background: var(--soft); border-left-color: var(--navy); }
+
+  /* title slide */
+  .slide.cover { background: var(--navy); }
+  .cover .kicker {
+    color: var(--orange); font-weight: 700;
+    letter-spacing: .22em; font-size: 1rem; text-transform: uppercase;
+  }
+  .cover h1 {
+    color: #fff; font-size: 4.4rem; font-weight: 800;
+    line-height: 1.05; letter-spacing: -.025em; margin-top: 1.375rem; max-width: 22ch;
+  }
+  .cover .sub {
+    color: #aab0d4; font-size: 1.7rem; font-weight: 300; margin-top: 1.625rem;
+  }
+  .cover .num { color: #4a5080; }
+
+  /* closing slide */
+  .slide.closing { background: var(--navy); }
+  .closing h2 { color: #fff; }
+  .closing p { color: #c7cbe6; }
+  .closing p em { color: var(--orange); }
+  .closing p strong { color: #fff; }
+  .closing pre { background: #161d44; border-left-color: var(--orange); color: #fff; }
+  .closing .num { color: #4a5080; }
+
+  .hint {
+    position: absolute; left: 8rem; bottom: 2.8rem;
+    font-size: .85rem; color: var(--muted); font-weight: 400;
+  }
+  .closing .hint, .cover .hint { color: #4a5080; }
+</style>
+</head>
+<body>
+
+<!-- 01 -->
+<section class="slide cover active">
+  <div class="kicker">Warsztat &middot; Iterators</div>
+  <h1>Harness agentowy</h1>
+  <div class="sub">Wiele agentów, jeden plan — i scout, który pilnuje progresji</div>
+</section>
+
+<!-- 02 -->
+<section class="slide">
+  <h2>Jeden agent się kończy</h2>
+  <p class="lead">Sesja agenta jest krótka i śmiertelna: kontekst rośnie, <strong>budżet iteracji i tokenów się wyczerpuje</strong>.</p>
+  <p>Wielogodzinna praca nie mieści się w jednej sesji. I <em>nie ma się mieścić</em> — to nie błąd, to własność.</p>
+</section>
+
+<!-- 03 -->
+<section class="slide">
+  <h2>Stan żyje poza modelem</h2>
+  <pre>goal.md        cel całości
+plan.md        kroki z kryteriami "zrobione"
+episodes/      kronika kolejnych epizodów
+  *-signal.json   pliki sygnałów agentów danego epizodu</pre>
+  <p>Sesje są jednorazowe. Wszystko, co ma przetrwać, mieszka w plikach. Model zapomina — <em>pliki nie</em>.</p>
+</section>
+
+<!-- 04 -->
+<section class="slide">
+  <h2>Harness</h2>
+  <pre class="diagram">(implementer → release manager → detektyw) → scout →
+(implementer → release manager → detektyw) → scout → …</pre>
+  <p>Epizod agentów, werdykt detektywa, potem <strong>deterministyczne przejście do następnego stanu planu</strong>. I tak aż plan zostanie ukończony — albo detektyw wyda <em>werdykt walled</em>.</p>
+</section>
+
+<!-- 05 -->
+<section class="slide">
+  <h2>goal.md i plan.md</h2>
+  <p>Cel — jedna strona, nikt go nie edytuje. Plan — kroki z checkboxami; każdy krok ma kryterium sprawdzalne poleceniem:</p>
+  <pre>- [ ] 2. zapis do pliku — `node test.js` kończy się kodem wyjścia 0</pre>
+  <p>Kryterium "zrobione" to nie "działa ładnie". To <em>polecenie i kod wyjścia</em> — i jest zamrożone: implementer nie edytuje ani jego treści, ani testów, które je realizują.</p>
+  <p>Jeśli agent może zmienić test zamiast implementacji — <strong>zmieni test</strong>.</p>
+</section>
+
+<!-- 06 -->
+<section class="slide">
+  <h2>Role zamiast supermózgu</h2>
+  <p><strong>Implementer</strong> — pisze kod dla bieżącego kroku.<br>
+     <strong>Release manager</strong> — dopuszcza do wydania: sam uruchamia kryterium; drobne usterki poprawia, większe opisuje w pliku sygnału.<br>
+     <strong>Detektyw</strong> — szuka tropów; diagnozuje, nie naprawia.</p>
+  <p>Każda rola to <strong>claude -p</strong> z innym promptem. Własnej pętli z pierwszego warsztatu tu nie używamy — <em>Claude Code jest dojrzalszą realizacją tej samej idei</em>.</p>
+</section>
+
+<!-- 07 -->
+<section class="slide">
+  <h2>Sygnały — rozmowa przez pliki</h2>
+  <pre>{
+  "agent": "release-manager",
+  "episode": 3,
+  "step": "2-zapis-do-pliku",
+  "status": "fail",
+  "summary": "Wczytanie pustej listy wywala program.",
+  "artifacts": ["episodes/episode-3/test-output.txt"]
+}</pre>
+  <p>Każdy epizod ma <strong>własny komplet sygnałów</strong> w swoim katalogu. Agenci nie dzielą kontekstu — co ma wiedzieć następny, <em>musi zostać zapisane</em>.</p>
+</section>
+
+<!-- 08 -->
+<section class="slide">
+  <h2>Release manager nie wierzy implementerowi</h2>
+  <p>Implementer mówi "zrobione". Release manager nie czyta zapewnień — <strong>sam uruchamia kryterium</strong>. Literówkę poprawi sam, wszystko większe opisuje w swoim pliku sygnału.</p>
+  <p>Jego plik sygnału — nie zapewnienia implementera — to główny dowód dla detektywa. <em>Kto pisał, ten nie dopuszcza do wydania.</em></p>
+</section>
+
+<!-- 09 -->
+<section class="slide">
+  <h2>Scout — kod, nie model</h2>
+  <pre>werdykt: advance   → odhacz krok, bierz następny
+werdykt: retry     → powtórka + diagnoza w prompcie
+werdykt: walled    → ściana — czekaj na człowieka
+brak sygnału       → powtórz sesję z dopiskiem
+plan odhaczony     → koniec</pre>
+  <p>Scout nie ocenia pracy — <strong>wykonuje werdykt detektywa</strong>. Zero tokenów, zero kreatywności. <em>Dlatego harness daje się debugować.</em></p>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <h2>Brak sygnału to nie werdykt</h2>
+  <p>Brak pliku <strong>niczego nie rozstrzyga</strong> i nie zatrzymuje harnessu. Scout powtarza tę samą sesję — z dopiskiem, że poprzednia próba nie zostawiła pliku sygnału.</p>
+  <p>Harness projektujesz od strony <em>awarii</em>, nie sukcesu.</p>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <h2>Detektyw bada każdy epizod — i wydaje werdykt</h2>
+  <p>Po porażce pisze diagnozę. Po sukcesie sprawdza, czy wynik jest wiarygodny: <strong>test przeszedł zbyt łatwo</strong>, kod obchodzi kryterium, dług techniczny został zamieciony pod dywan.</p>
+  <p>Werdykt: <strong>advance / retry / walled</strong> — ściana znaczy: bez decyzji człowieka się nie ruszy. Tropy trafiają do następnego epizodu — kolejne epizody korzystają ze stanu zapisanego <em>w plikach</em>, nie z pamięci modelu.</p>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <h2>Twarde limity — na dwóch poziomach</h2>
+  <p>W sesji agenta: <strong>--max-turns</strong> przekazany do <strong>claude -p</strong>.<br>
+     W harnessie: limit epizodów — ale tylko jako <strong>bezpiecznik</strong>.</p>
+  <p>O zatrzymaniu pracy decyduje werdykt walled, nie licznik. Bezpiecznik jest na wypadek, gdyby wszystko inne zawiodło — bo nikogo nie ma przy klawiaturze, żeby <em>przerwać</em>.</p>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <h2>Co dziś zbudujesz</h2>
+  <pre class="diagram">goal.md + plan.md
+      │
+      ▼
+epizod: implementer → release manager → detektyw
+      │            (sygnały *.json)
+      ▼
+scout (kod) ── odhacza / powtarza / stop
+      │
+      ▼
+episodes/episode-N/ … aż plan zostanie ukończony</pre>
+  <p>Uruchamiasz raz; dalej pracuje harness. Wracasz do procesu dopiero przy statusie <em>walled</em>.</p>
+</section>
+
+<!-- 14 -->
+<section class="slide closing">
+  <h2>Harness pracuje obok ludzi</h2>
+  <p>Uruchamiasz go i wracasz do własnej, równoległej pracy (<strong>developer side tracks</strong>).</p>
+  <p>Harness wymaga twojej interwencji tylko przy <em>werdykcie walled</em> albo po ukończeniu planu.</p>
+  <p><strong>No dobra, to programujemy!</strong></p>
+  <pre>node harness.js plan.md</pre>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <h2>Pomysły na harness — serwisy (1/2)</h2>
+  <p><strong>Strażnik repo</strong> — pilnuje zależności i bezpieczeństwa: backlog bierze z <em>npm outdated</em> i <em>npm audit</em>, sam dobudowuje sobie checkery (skan sekretów, wersje obrazów). Patch podnosi kodem; przy majorze robi research i otwiera MR.</p>
+  <p><strong>Devops z healerem</strong> — monitor deterministycznie sprawdza dysk, procesy i usługi; healer naprawia w granicach mandatu z goal.md (cache może skasować, danych nie tknie); watchdog co N obiegów prowadzi śledztwo, czemu problem wraca.</p>
+  <p><strong>Evergreen research</strong> — żywy raport na zadany temat: budowniczy tworzy scrapery źródeł (raz zbudowane, pobierają dane bez wywołań modelu), analityk co N obiegów ocenia, czy pojawiło się coś ważnego — i pisze na Telegrama.</p>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <h2>Pomysły na harness — serwisy (2/2)</h2>
+  <p><strong>Spinacz komunikacji</strong> — czyta maile, Slacka, transkrypcje spotkań, Jirę i support; robi podsumowania i krzyżowo sprawdza spójność: obietnica ze spotkania ma ticket, problem z maila ma odpowiedź, <em>nic się nie zgubiło</em>.</p>
+  <p><strong>Analityk biznesowy</strong> — schodzi po backlogu issues i pod każdy feature robi deep research: kontekst rynkowy, ryzyka, pytania do klienta. Analiza czeka gotowa, zanim ktokolwiek weźmie ticket.</p>
+  <p><strong>Labelowanie danych</strong> — labeluje partiami; gdy trafi na dane, które nie mieszczą się w typologii, rozbudowuje ontologię, poprawia stare labelki i jedzie dalej.</p>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <h2>Pomysły na harness — pętle badawcze (1/2)</h2>
+  <p><strong>Turniej</strong> — wspólny deep research składa dossier, potem N niezależnych sesji rozwiązuje to samo zadanie (feature, artykuł, architektura) — żadna nie zna cudzych planów. Bramki deterministyczne odsiewają, sędzia porównuje według kryteriów oceny z goal.md, a synteza bierze zwycięzcę i <em>kradnie najlepsze pomysły przegranych</em>.</p>
+  <p><strong>Optymalizator przestrzeni projektowej</strong> — przestrzenią jest parametryczny CAD (code-CAD) albo features modelu ML. Agent proponuje kandydata, symulacja albo metryka ocenia go kodem, najlepszy zostaje punktem wyjścia następnego epizodu — i tak aż metryka przestanie się poprawiać przez kilka epizodów.</p>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <h2>Pomysły na harness — pętle badawcze (2/2)</h2>
+  <p><strong>Model rynku</strong> — model rośnie wzdłuż łańcucha spięć rynkowych: kredyty → mieszkania → materiały budowlane → tartaki | kopalnie. Research proponuje kolejne ogniwo i dokłada szeregi danych, kod liczy korelacje na roku testowym (2025, YTD) — hipoteza zostaje tylko, jeśli dane jej bronią. Każde ogniwo podsuwa następne: <em>backlog generuje się sam</em>.</p>
+  <p><strong>Dekonstrukcja storytellingu</strong> — książka po książce z kanonu: research rozbiera każdą na strukturę historii, ontologia wzorców fabularnych rośnie i jest poprawiana wstecz. Książka, która nie pasuje do żadnego wzorca, to walled — człowiek decyduje, czy to nowy wzorzec.</p>
+</section>
+
+<!-- 19 -->
+<section class="slide">
+  <h2>Pomysły na agenty — nazwy się liczą</h2>
+  <pre>budowniczy   inspektor   healer      sygnalista
+detektyw     sędzia      sceptyk     syntezator
+analityk     redaktor    kronikarz   negocjator</pre>
+  <p>Rola to prompt, a nazwa robi jego połowę: <strong>detektyw</strong> szuka tropów, <strong>inspektor</strong> nie wierzy na słowo, <strong>healer</strong> nie wychodzi poza mandat.</p>
+  <p><strong>Kapelusze de Bono</strong> jako gotowa paleta — sceptyk "to się nie uda" zamienia wątpliwości w <em>ograniczenia rozwiązania</em>.</p>
+</section>
+
+<!-- 20 -->
+<section class="slide">
+  <h2>Deterministyczne integracje — macierz</h2>
+  <pre>czytają świat      ściąganie z API · scraper · transkrypcja
+    
+mierzą             checker · walidator · diff snapshotów ·
+                   symulacja/metryka · backtest/korelacja
+
+piszą do świata    MR · Telegram · mail · raport — zawsze przez outbox</pre>
+  <p>Agent buduje je raz — potem kręcą się <strong>bez modelu</strong>. Harness rośnie o narzędzia, nie o tokeny.</p>
+  <p>Dzieje się coś dziwnego? Trzeba zareagować? Jest coś nowego wymagającego rozkminy? → <em>odpalamy agenta</em> albo <strong>informujemy usera</strong>.</p>
+  <p>Szkielet zawsze ten sam: scout, epizody, sygnały. <em>Wymyśl własny.</em></p>
+</section>
+
+<!-- 21 -->
+<section class="slide">
+  <h2>Metakognicja — zrozumienie rozumowania</h2>
+  <p>Im lepiej rozumiesz własny proces rozumowania, tym łatwiej potrafisz rozłożyć go na komponenty i zbudować podobny proces w systemie agentowym.</p>
+  <pre>świat       z jakiego modelu rzeczywistości korzystam?
+zadanie     jak rozpoznaję cel i ograniczenia?
+strategie   jak wybieram sposób rozwiązania?
+niewiedza   skąd wiem, czego nie wiem?
+inni        jak wiedza o innych zmienia moje rozumowanie?
+kontrola    kiedy kończę, sprawdzam, zmieniam strategię albo deleguję?</pre>
+  <p>Najpierw obserwujesz własne „rozkminy”, potem eksternalizujesz je jako architekturę agenta.</p>
+</section>
+
+<script>
+  const LOGO_SVG =
+    '<svg class="logo" role="img" aria-label="Iterators" xmlns="http://www.w3.org/2000/svg"' +
+    ' width="134" height="29" viewBox="0 0 134 29">' +
+    '<g class="logo-mark">' +
+    '<path fill="#FFA400" d="M 18.8 0 L 23.7 8.4 L 19.1 16.7 L 32.8 16.9 L 37.6 8.7 L 32.8 0 Z"/>' +
+    '<path fill="#FFA400" d="M 0.3 12.0 L 5.2 20.5 L 0.3 29 L 14.3 29 L 19.2 20.7 L 14.3 12.0 Z"/>' +
+    '<path fill="#F36D21" d="M 3.0 0 L 7.8 8.4 L 3.0 16.9 L 17.0 16.9 L 21.8 8.7 L 17.0 0 Z"/>' +
+    '<path fill="#F36D21" d="M 16.2 12.0 L 21.0 20.5 L 16.2 29 L 30.1 29 L 35.0 20.7 L 30.1 12.0 Z"/>' +
+    '</g>' +
+    '<g class="logo-text" fill="#000000">' +
+    '<path d="M 44.5 20.39 L 47.5 20.39 L 47.5 8.67 L 44.5 8.67 Z"/>' +
+    '<path d="M 52.2 11.27 L 49.0 11.27 L 49.0 8.67 L 58.5 8.67 L 58.5 11.27 L 55.4 11.27 L 55.4 20.39 L 52.2 20.39 Z"/>' +
+    '<path d="M 60.4 8.67 L 68.2 8.67 L 68.2 11.27 L 63.6 11.27 L 63.6 13.1 L 67.6 13.1 L 67.6 15.7 L 63.6 15.7 L 63.6 17.8 L 68.4 17.8 L 68.4 20.39 L 60.4 20.39 Z"/>' +
+    '<path d="M 73.5 14.0 L 74.6 14.0 C 75.9 14.0 76.5 13.4 76.5 12.4 C 76.5 11.4 75.9 11.1 74.6 11.1 L 73.5 11.1 Z M 76.7 20.3 L 74.7 16.4 L 73.5 16.4 L 73.5 20.3 L 70.4 20.3 L 70.4 8.6 L 74.9 8.6 C 77.4 8.6 79.6 9.5 79.6 12.4 C 79.6 14.1 78.8 15.2 77.7 15.8 L 80.2 20.3 Z"/>' +
+    '<path d="M 86.6 15.5 L 86.4 14.6 C 86.1 13.5 85.8 12.1 85.5 10.9 L 85.4 10.9 C 85.2 12.1 84.9 13.5 84.6 14.6 L 84.4 15.5 Z M 87.1 17.9 L 83.8 17.9 L 83.3 20.3 L 80.1 20.3 L 83.7 8.6 L 87.4 8.6 L 91.0 20.3 L 87.7 20.3 Z"/>' +
+    '<path d="M 93.6 11.2 L 90.5 11.2 L 90.5 8.6 L 99.8 8.6 L 99.8 11.2 L 96.7 11.2 L 96.7 20.3 L 93.6 20.3 Z"/>' +
+    '<path d="M 108.2 14.4 C 108.2 12.3 107.3 11.1 105.9 11.1 C 104.5 11.1 103.6 12.3 103.6 14.4 C 103.6 16.6 104.5 17.9 105.9 17.9 C 107.3 17.9 108.2 16.6 108.2 14.4 M 100.4 14.4 C 100.4 10.6 102.6 8.4 105.9 8.4 C 109.2 8.4 111.4 10.6 111.4 14.4 C 111.4 18.3 109.2 20.6 105.9 20.6 C 102.6 20.6 100.4 18.3 100.4 14.4Z"/>' +
+    '<path d="M 116.5 14.0 L 117.6 14.0 C 118.9 14.0 119.5 13.4 119.5 12.4 C 119.5 11.4 118.9 11.1 117.6 11.1 L 116.5 11.1 Z M 119.7 20.3 L 117.7 16.4 L 116.5 16.4 L 116.5 20.3 L 113.4 20.3 L 113.4 8.6 L 117.9 8.6 C 120.4 8.6 122.6 9.5 122.6 12.4 C 122.6 14.1 121.8 15.2 120.7 15.8 L 123.2 20.3 Z"/>' +
+    '<path d="M 125.5 16.8 C 126.4 17.4 127.4 17.9 128.3 17.9 C 129.2 17.9 129.6 17.6 129.6 17.1 C 129.6 16.5 129.0 16.3 128.0 15.9 L 126.6 15.3 C 125.3 14.8 124.2 13.7 124.2 12.1 C 124.2 10.1 126.0 8.4 128.6 8.4 C 129.9 8.4 131.4 8.9 132.5 10.0 L 130.9 11.9 C 130.1 11.4 129.4 11.1 128.6 11.1 C 127.8 11.1 127.4 11.3 127.4 11.9 C 127.4 12.4 128.0 12.6 129.1 13.0 L 130.5 13.6 C 132.0 14.2 132.8 15.2 132.8 16.8 C 132.8 18.8 131.1 20.6 128.2 20.6 C 126.7 20.6 125.0 20.0 123.8 18.9 Z"/>' +
+    '</g></svg>';
+
+  const slides = [...document.querySelectorAll('.slide')];
+  const total = slides.length;
+
+  slides.forEach((s, i) => {
+    s.insertAdjacentHTML('beforeend', LOGO_SVG);
+    const num = document.createElement('div');
+    num.className = 'num';
+    num.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    s.appendChild(num);
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    s.appendChild(bar);
+  });
+  slides[0].insertAdjacentHTML('beforeend',
+    '<div class="hint">← → spacja &middot; F pełny ekran</div>');
+
+  let i = 0;
+  function show(n) {
+    i = Math.max(0, Math.min(total - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    slides[i].querySelector('.bar').style.width = ((i + 1) / total) * 100 + '%';
+    location.hash = i + 1;
+  }
+  function next() { show(i + 1); }
+  function prev() { show(i - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight', ' ', 'PageDown', 'Enter'].includes(e.key)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); prev(); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(total - 1);
+    else if (e.key.toLowerCase() === 'f') {
+      document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+    }
+  });
+  // Click navigation only at the screen edges: right 20% = next, left 20% = prev.
+  // Clicks in the middle do nothing, so pointing/selecting text never flips the slide.
+  document.addEventListener('click', e => {
+    const x = e.clientX / window.innerWidth;
+    if (x > 0.8) next();
+    else if (x < 0.2) prev();
+  });
+
+  const start = parseInt(location.hash.slice(1), 10);
+  show(Number.isFinite(start) && start > 0 ? start - 1 : 0);
+</script>
+</body>
+</html>
