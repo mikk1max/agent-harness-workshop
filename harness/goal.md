@@ -11,6 +11,7 @@ node cli.js add "<tekst>" --file <ścieżka>      # dodaje zadanie, drukuje nic,
 node cli.js list --file <ścieżka>               # drukuje zadania, jedna linia na zadanie, exit 0
 node cli.js done <id> --file <ścieżka>          # oznacza zadanie jako zrobione, exit 0
 node cli.js remove <id> --file <ścieżka>        # usuwa zadanie, exit 0
+node cli.js count --file <ścieżka>              # drukuje liczbę zadań (wszystkich), exit 0
 ```
 
 - Plik `--file` to zwykły JSON: tablica obiektów `{ "id": number, "text": string, "done": boolean }`.
@@ -23,6 +24,8 @@ node cli.js remove <id> --file <ścieżka>        # usuwa zadanie, exit 0
 - `done <id>` i `remove <id>` dla nieistniejącego `id`: proces kończy się
   kodem wyjścia **1** i komunikatem błędu na stderr (nie rzuca nieobsłużonego
   wyjątku, nie wypisuje stack trace'u).
+- `count` drukuje samą liczbę zadań (wszystkich, niezależnie od `done`) i
+  nic więcej — sam wynik, bez etykiety, zakończony znakiem nowej linii.
 - Brak zewnętrznych zależności — sam Node.js (fs, path, process).
 
 ## Poza zakresem
