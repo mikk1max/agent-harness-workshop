@@ -1,0 +1,9 @@
+{
+  "maxEpisodes": 30,
+  "maxSignalRetries": 3,
+  "roles": {
+    "implementer": { "maxTurns": 20, "model": "sonnet", "effort": "high" },
+    "release-manager": { "maxTurns": 15, "model": "haiku", "effort": "low" },
+    "detektyw": { "maxTurns": 15, "model": "sonnet", "effort": "medium" }
+  }
+}
